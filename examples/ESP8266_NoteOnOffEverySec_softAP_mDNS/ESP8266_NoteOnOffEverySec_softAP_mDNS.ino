@@ -12,8 +12,7 @@
 #include <WiFiUdp.h>
 
 #define SerialMon Serial
-#include <AppleMIDI_Debug.h>
-
+#define APPLEMIDI_DEBUG SerialMon
 #include <AppleMIDI.h>
 
 char ssid[] = "ssid"; //  your network SSID (name)

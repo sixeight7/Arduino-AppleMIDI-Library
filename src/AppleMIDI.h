@@ -7,6 +7,8 @@ using namespace MIDI_NAMESPACE;
 
 #include <IPAddress.h>
 
+#include "AppleMIDI_Debug.h"
+
 #include "AppleMIDI_PlatformBegin.h"
 #include "AppleMIDI_Defs.h"
 #include "AppleMIDI_Settings.h"
@@ -30,6 +32,7 @@ struct AppleMIDISettings : public MIDI_NAMESPACE::DefaultSettings
 {
     // Packet based protocols prefer the entire message to be parsed
     // as a whole.
+    static const unsigned SysExMaxSize = 640;
     static const bool Use1ByteParsing = false;
 };
 
@@ -57,54 +60,19 @@ public:
 #endif
     };
 
-    virtual ~AppleMIDISession(){};
+    virtual ~AppleMIDISession(){
+    };
 
-    AppleMIDISession &setHandleConnected(void (*fptr)(const ssrc_t &, const char *))
-    {
-        _connectedCallback = fptr;
-        return *this;
-    }
-    AppleMIDISession &setHandleDisconnected(void (*fptr)(const ssrc_t &))
-    {
-        _disconnectedCallback = fptr;
-        return *this;
-    }
+    AppleMIDISession& setHandleConnected(void (*fptr)(const ssrc_t &, const char *)) { _connectedCallback = fptr; return *this; }
+    AppleMIDISession& setHandleDisconnected(void (*fptr)(const ssrc_t &)) { _disconnectedCallback = fptr; return *this; }
 #ifdef USE_EXT_CALLBACKS
-    AppleMIDISession &setHandleException(void (*fptr)(const ssrc_t &, const Exception &, const int32_t value))
-    {
-        _exceptionCallback = fptr;
-        return *this;
-    }
-    AppleMIDISession &setHandleReceivedRtp(void (*fptr)(const ssrc_t &, const Rtp_t &, const int32_t &))
-    {
-        _receivedRtpCallback = fptr;
-        return *this;
-    }
-    AppleMIDISession &setHandleStartReceivedMidi(void (*fptr)(const ssrc_t &))
-    {
-        _startReceivedMidiByteCallback = fptr;
-        return *this;
-    }
-    AppleMIDISession &setHandleReceivedMidi(void (*fptr)(const ssrc_t &, byte))
-    {
-        _receivedMidiByteCallback = fptr;
-        return *this;
-    }
-    AppleMIDISession &setHandleEndReceivedMidi(void (*fptr)(const ssrc_t &))
-    {
-        _endReceivedMidiByteCallback = fptr;
-        return *this;
-    }
-    AppleMIDISession &setHandleSentRtp(void (*fptr)(const Rtp_t &))
-    {
-        _sentRtpCallback = fptr;
-        return *this;
-    }
-    AppleMIDISession &setHandleSentRtpMidi(void (*fptr)(const RtpMIDI_t &))
-    {
-        _sentRtpMidiCallback = fptr;
-        return *this;
-    }
+    void setHandleException(void (*fptr)(const ssrc_t &, const Exception &, const int32_t value))    {        _exceptionCallback = fptr;  return *this; }
+    AppleMIDISession& setHandleReceivedRtp(void (*fptr)(const ssrc_t &, const Rtp_t &, const int32_t &)) { _receivedRtpCallback = fptr;  return *this;}
+    AppleMIDISession& setHandleStartReceivedMidi(void (*fptr)(const ssrc_t &)) { _startReceivedMidiByteCallback = fptr;  return *this;}
+    AppleMIDISession& setHandleReceivedMidi(void (*fptr)(const ssrc_t &, byte)) { _receivedMidiByteCallback = fptr;  return *this;}
+    AppleMIDISession& setHandleEndReceivedMidi(void (*fptr)(const ssrc_t &)) { _endReceivedMidiByteCallback = fptr;  return *this;}
+    AppleMIDISession& setHandleSentRtp(void (*fptr)(const Rtp_t &)) { _sentRtpCallback = fptr;  return *this;}
+    AppleMIDISession& setHandleSentRtpMidi(void (*fptr)(const RtpMIDI_t &)) { _sentRtpMidiCallback = fptr;  return *this;}
 #endif
 
 #ifdef KEEP_SESSION_NAME
@@ -112,7 +80,7 @@ public:
     {
         return this->localName;
     };
-    AppleMIDISession &setName(const char *sessionName)
+    AppleMIDISession& setName(const char *sessionName)
     {
         strncpy(this->localName, sessionName, DefaultSettings::MaxSessionNameLen);
         return *this;
@@ -122,20 +90,12 @@ public:
     {
         return nullptr;
     };
-    AppleMIDISession &setName(const char *sessionName) { return *this; };
+    AppleMIDISession& setName(const char *sessionName){ return *this; };
 #endif
-
     const uint16_t getPort() const
     {
         return this->port;
     };
-
-    // call this method *before* calling begin()
-    void setPort(const uint16_t port)
-    {
-        this->port = port;
-    }
-
     const ssrc_t getSynchronizationSource() const { return this->ssrc; };
 
 #ifdef APPLEMIDI_INITIATOR

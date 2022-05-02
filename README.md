@@ -13,8 +13,16 @@ Enables an Arduino with IP/UDP capabilities (Ethernet shield, ESP8266, ESP32, ..
 * Automatic instantiation of AppleMIDI object (see at the end of 'AppleMidi.h')
 * Compiles on Arduino, MacOS (XCode) and Windows (MSVS)
 
-### New in 3.2.0
-* Event chaining
+## New in 3.0.0
+* Bug Fixes (long session names get cropped)
+* Reduced memory footprint (see AVR_MinMemUsage example and note below)
+* Extended and revised callbacks to receive AppleMIDI protocol feedback (see AVR_Callbacks example)
+* Who may connect to me (Directory) (see AVR_Directory example)
+### New in 3.1.0
+* Increased stability in high-throughput situations
+* Updated wiki
+### New in 3.1.1 and 3.1.2
+* Bug fixes en enhancements
 
 ## Installation
 From the Arduino IDE Library Manager, search for AppleMIDI
@@ -58,7 +66,7 @@ More usages in the [examples](https://github.com/lathoub/Arduino-AppleMIDI-Libra
 * Arduino/Genuino (Mega, Uno, Arduino Ethernet, MKRZERO, ...)
 * ESP8266 (Adafruit HUZZAH ESP8266, Sparkfun ESP8266 Thing Dev)
 * ESP32 (Adafruit HUZZAH32 – ESP32 Feather Board) Wi-Fi
-* ESP32 with W5500 [Setup](https://github.com/lathoub/Arduino-AppleMIDI-Library/discussions/135)
+* ESP32 with W5500 [Setup]()
 * Teensy 3.2 & 4.1
 * Adafruit Feather M0 WiFi - ATSAMD21 + ATWINC1500 
 

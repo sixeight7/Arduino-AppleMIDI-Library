@@ -1,7 +1,5 @@
 #pragma once
 
-BEGIN_APPLEMIDI_NAMESPACE
-
 template<typename T, size_t Size>
 class Deque {
 //    class iterator;
@@ -211,5 +209,3 @@ void Deque<T, Size>::clear()
   _tail = -1;
   _head = 0;
 }
-
-END_APPLEMIDI_NAMESPACE

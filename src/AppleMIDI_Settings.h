@@ -6,9 +6,9 @@ BEGIN_APPLEMIDI_NAMESPACE
 
 struct DefaultSettings
 {
-    static const size_t UdpTxPacketMaxSize = 24; 
+    static const size_t UdpTxPacketMaxSize = 240; 
     
-    static const size_t MaxBufferSize = 64;
+    static const size_t MaxBufferSize = 640;
     
     static const size_t MaxSessionNameLen = 24;
 

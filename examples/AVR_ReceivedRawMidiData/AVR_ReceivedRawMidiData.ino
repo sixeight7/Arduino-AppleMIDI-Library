@@ -1,9 +1,8 @@
 #include <Ethernet.h>
 
-#define SerialMon Serial
-#include <AppleMIDI_Debug.h>
-
 #define USE_EXT_CALLBACKS
+#define SerialMon Serial
+#define APPLEMIDI_DEBUG SerialMon
 #include <AppleMIDI.h>
 
 // Enter a MAC address for your controller below.
